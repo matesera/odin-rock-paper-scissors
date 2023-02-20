@@ -1,1 +1,2 @@
 # odin-rock-paper-scissors
+This is the first JS project in the cirruculum. The goal is to make a simple program that plays rock paper scissors with the computer and user input. Plays 5 rounds, then outputs the winner.
