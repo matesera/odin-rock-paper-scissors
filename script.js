@@ -5,18 +5,49 @@ function getComputerChoice () {
     return random;
 }
 
-// a function that plays a round of rps, playRound(playerSelection, computerSelection)
-// returns!!! a string with the winner: win-lose, this beats that
-// playerSelection case-insensitive, so it accepts R,r
 
 let playerSelection = '';
 let computerSelection = '';
 let round;
 
-function playRound (playerSelection, computerSelection) {
+// should add the playRound function in the event listener to initialize the function, and pass the clicked value??
+// so if i click whichever button, that starts the playRound function with the value of the clicked button as playerSelection
 
-    let userChoice = prompt("Rock paper scissors shoot: ");
-    playerSelection = userChoice.toLowerCase();
+
+const rockBtn = document.querySelector('.rock-btn');
+rockBtn.addEventListener('click', () => {
+    playerSelection = 'rock';
+
+    playRound(playerSelection, computerSelection);
+
+    console.log(playRound(playerSelection, computerSelection));
+}); 
+
+const paperBtn = document.querySelector('.paper-btn');
+paperBtn.addEventListener('click', () => {
+    playerSelection = 'paper';
+
+    playRound(playerSelection, computerSelection);
+
+    console.log(playRound(playerSelection, computerSelection));
+}); 
+
+
+const scissorsBtn = document.querySelector('.scissors-btn');
+scissorsBtn.addEventListener('click', () => {
+    playerSelection = 'scissors';
+
+    playRound(playerSelection, computerSelection);
+
+    console.log(playRound(playerSelection, computerSelection));
+});
+
+// a function that plays a round of rps, playRound(playerSelection, computerSelection)
+// returns!!! a string with the winner: win-lose, this beats that
+// playerSelection case-insensitive, so it accepts R,r
+
+function playRound (playerSelection, computerSelection) {
+    
     computerSelection = getComputerChoice().toLowerCase();
     
 
@@ -40,7 +71,9 @@ function playRound (playerSelection, computerSelection) {
         return "Scissors on Scissors! It's a tie!";
     } else {
         return "Try again!";
-    }
+    } 
+
+    
 }
 
 
@@ -85,7 +118,6 @@ function game () {
     }
 }
 
-let test = game();
-console.log(test);
+
 
 
