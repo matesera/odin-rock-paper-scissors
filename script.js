@@ -9,97 +9,132 @@ function getComputerChoice () {
 let playerSelection = '';
 let computerSelection = '';
 let round;
-
-// should add the playRound function in the event listener to initialize the function, and pass the clicked value??
-// so if i click whichever button, that starts the playRound function with the value of the clicked button as playerSelection
-
-
-const rockBtn = document.querySelector('.rock-btn');
-rockBtn.addEventListener('click', () => {
-    playerSelection = 'rock';
-
-    playRound(playerSelection, computerSelection);
-
-    console.log(playRound(playerSelection, computerSelection));
-}); 
-
-const paperBtn = document.querySelector('.paper-btn');
-paperBtn.addEventListener('click', () => {
-    playerSelection = 'paper';
-
-    playRound(playerSelection, computerSelection);
-
-    console.log(playRound(playerSelection, computerSelection));
-}); 
-
-
-const scissorsBtn = document.querySelector('.scissors-btn');
-scissorsBtn.addEventListener('click', () => {
-    playerSelection = 'scissors';
-
-    playRound(playerSelection, computerSelection);
-
-    console.log(playRound(playerSelection, computerSelection));
-});
+let winScore = 0;
+let loseScore = 0;
 
 // a function that plays a round of rps, playRound(playerSelection, computerSelection)
 // returns!!! a string with the winner: win-lose, this beats that
 // playerSelection case-insensitive, so it accepts R,r
 
 function playRound (playerSelection, computerSelection) {
-    
-    computerSelection = getComputerChoice().toLowerCase();
-    
 
     if (playerSelection === 'rock' & computerSelection === 'paper') {
-        return "You lose! Paper beats Rock!";
+        loseScore++;
+        const p = document.createElement('p');
+        p.textContent = "You lose! Paper beats Rock!";  
+        scoreDiv.append(p);  
     } else if (playerSelection === 'paper' & computerSelection === 'scissors') {
-        return "You lose! Scissors beats Paper!";
+        loseScore++;
+        const p = document.createElement('p');
+        p.textContent = "You lose! Scissors beats Paper!"; 
+        scoreDiv.append(p);   
     } else if (playerSelection === 'scissors' & computerSelection === 'rock') {
-        return "You lose! Rock beats Scissors!";
+        loseScore++;
+        const p = document.createElement('p');
+        p.textContent = "You lose! Rock beats Scissors!"; 
+        scoreDiv.append(p);  
     } else if (playerSelection === 'rock' & computerSelection === 'scissors') {
-        return "You win! Rock beats Scissors!";
+        winScore++;
+        const p = document.createElement('p');
+        p.textContent = "You win! Rock beats Scissors!"; 
+        scoreDiv.append(p);  
     } else if (playerSelection === 'paper' & computerSelection === 'rock') {
-        return "You win! Paper beats Rock!";
+        winScore++;
+        const p = document.createElement('p');
+        p.textContent = "You win! Paper beats Rock!";
+        scoreDiv.append(p);
     } else if (playerSelection === 'scissors' & computerSelection === 'paper') {
-        return "You win! Scissors beats Paper!";
-    } else if (playerSelection === 'rock' & computerSelection === 'rock') {
-        return "Rock on Rock! It's a tie!";
-    } else if (playerSelection === 'paper' & computerSelection === 'paper') {
-        return "Paper on Paper! It's a tie!";
-    } else if (playerSelection === 'scissors' & computerSelection === 'scissors') {
-        return "Scissors on Scissors! It's a tie!";
+        winScore++;
+        const p = document.createElement('p');
+        p.textContent = "You win! Scissors beats Paper!";
+        scoreDiv.append(p);
+    } else if (playerSelection === computerSelection) {
+        const p = document.createElement('p');
+        p.textContent = `${playerSelection} vs ${computerSelection} it's a tie!`;
+        scoreDiv.append(p);
     } else {
-        return "Try again!";
+        const p = document.createElement('p');
+        p.textContent = "Try again!";
+        scoreDiv.append(p);
     } 
-
-    
 }
 
+// should add the playRound function in the event listener to initialize the function, and pass the clicked value??
+// so if i click whichever button, that starts the playRound function with the value of the clicked button as playerSelection
+
+const rockBtn = document.querySelector('.rock-btn');
+rockBtn.addEventListener('click', () => {
+    playerSelection = 'rock';
+    computerSelection = getComputerChoice().toLowerCase();
+
+    playRound(playerSelection, computerSelection);
+
+    keepScore();
+
+    declareWinner();
+     
+}); 
+
+const paperBtn = document.querySelector('.paper-btn');
+paperBtn.addEventListener('click', () => {
+    playerSelection = 'paper';
+    computerSelection = getComputerChoice().toLowerCase();
+
+    playRound(playerSelection, computerSelection);
+
+    keepScore();
+
+    declareWinner();
+
+}); 
 
 
+const scissorsBtn = document.querySelector('.scissors-btn');
+scissorsBtn.addEventListener('click', () => {
+    playerSelection = 'scissors';
+    computerSelection = getComputerChoice().toLowerCase();
 
+    playRound(playerSelection, computerSelection);
 
+    keepScore();
+
+    declareWinner();
+
+});
+
+//select the score div, after each round, add the score into it
+const scoreDiv = document.querySelector('.score-div');
+const playerScore = document.querySelector('.player-score');
+playerScore.textContent = "Player Score: 0";
+const computerScore = document.querySelector('.computer-score');
+computerScore.textContent = "Computer Score: 0";
+
+function keepScore() {
+    
+    playerScore.textContent = `Player Score: ${winScore}`;
+    computerScore.textContent = `Computer Score: ${loseScore}`;
+}
+
+function declareWinner() {
+
+    if (winScore === 5) {
+        const h2 = document.createElement('h2');
+        h2.textContent = "You beat the computer!"
+        scoreDiv.append(h2);
+    } else if ( loseScore === 5) {
+        const h2 = document.createElement('h2');
+        h2.textContent = "You got beaten by the computer!";
+        scoreDiv.append(h2);
+    }
+}
 
 
 //a function called game, plays 5 rounds, keeps the score of each and outputs them at the end of each round
 //outputs the winner at the end
-function game () {
+/*function game () {
 
-    let winScore = 0;
-    let loseScore = 0;
-    let tieScore = 0;
-    
     for (let i = 0; i < 5; i++) {
-        round = playRound (playerSelection, computerSelection);
-        console.log(round);
-        if (round.includes("win")) {
-            winScore++;
-        } else if (round.includes("lose")) {
-            loseScore++;
-        } else if (round.includes("tie")) {
-            tieScore++;
-        }
+        keepScore();
     }
     
     
@@ -116,7 +151,7 @@ function game () {
     } else {
         console.log("Try again!");
     }
-}
+} */
 
 
 
